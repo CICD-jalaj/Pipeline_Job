@@ -3,38 +3,22 @@ pipeline {
     environment {
         PATH = "/opt/apache-maven-3.6.3/bin:$PATH"
     }
-
     stages {
         stage('clone code') {
             steps {
-                git 'https://github.com/ravdy/hello-world.git'
+                git 'https://github.com/CICD-jalaj/Pipeline_Job.git'
             }
         }
-        stage ('Compile Stage') {
-
+         stage('build code') {
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean compile'
-                }
+                sh "mvn clean install"
             }
         }
-
-        stage ('Testing Stage') {
-
+         stage('Test code') {
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
+                sh "mvn test"
             }
         }
-
-
-        stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
-            }
-        }
+       
     }
 }
